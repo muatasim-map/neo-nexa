@@ -1,0 +1,89 @@
+/* ===== round 5: illustrations, custom cursors (sparkles live in v2-motion.js) ===== */
+:root { --ink: #2b2350; }
+.robotics { --ink: #dfe8ff; }
+
+/* --- hero scene: replaces the round-2 tilted tile; sits under the CTA, beside the photo --- */
+.hero::before { display: none !important; }
+.v2-scene-wrap { width: min(92%, 30rem); pointer-events: none; }
+@media (min-width: 47.01rem) {
+  .hero-copy { grid-row: 1 / span 2; }
+  .hero > .gallery { grid-column: 2; grid-row: 1; align-self: end; }
+  .hero > .v2-scene-wrap { grid-column: 2; grid-row: 2; justify-self: start; margin: -.4rem 0 0 -2.2rem; align-self: start; }
+}
+@media (max-width: 47rem) { .v2-scene-wrap { width: 78%; margin: -.6rem auto 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .hero > .v2-scene-wrap { animation: v2-in-lite 600ms var(--ease-out) 350ms both; }
+}
+
+/* --- subject chips under the tuition intro --- */
+.v2-subjects { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: -.5rem 0 1.6rem; padding: 0; list-style: none; }
+.v2-subjects .lead { font-size: var(--step--1); font-weight: 600; color: #4a3a73; margin-right: .2rem; }
+.v2-subjects li { display: inline-flex; align-items: center; gap: .45rem; padding: .4rem .8rem .4rem .5rem; border-radius: 999px;
+  background: #ffffffd9; border: 1px solid #e3d6f6; font-size: var(--step--1); font-weight: 600; color: #2b2350; box-shadow: 0 2px 8px -4px #43226a33; }
+.v2-subjects svg { width: 1.35rem; height: 1.35rem; flex: none; }
+.v2-subjects .rover { color: #6a45a8; --icon-wash: #e5d7fa; }
+
+/* --- tutor-tier badges --- */
+.tutor-list dt { justify-content: flex-start; align-items: center; }
+.v2-badge-tier { width: 28px; height: 28px; flex: none; margin-right: .15rem; }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .v2-badge-tier { transition: scale 160ms var(--ease-out), rotate 160ms var(--ease-out); }
+  .tutor-list > div:hover .v2-badge-tier { scale: 1.12; rotate: -6deg; }
+}
+
+/* --- notebook paper behind tuition --- */
+#tuition { isolation: isolate; }
+#tuition::before { content: ""; position: absolute; inset: 0 calc(-1 * var(--gutter)); z-index: -2; pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent calc(var(--gutter) + 2.2rem), #f0a8c455 calc(var(--gutter) + 2.2rem), #f0a8c455 calc(var(--gutter) + 2.2rem + 1.5px), transparent calc(var(--gutter) + 2.2rem + 1.5px)),
+    repeating-linear-gradient(180deg, transparent 0 31px, #9fb6e033 31px 32px);
+  -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 85%, transparent); mask-image: linear-gradient(transparent, #000 12%, #000 85%, transparent); }
+@media (max-width: 47rem) { #tuition::before { background: repeating-linear-gradient(180deg, transparent 0 31px, #9fb6e02e 31px 32px); } }
+
+/* --- blueprint sketches behind robotics --- */
+.robotics::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url("/blueprint.svg") 0 0 / 560px 420px repeat;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 40%, #000 30%, transparent 85%); mask-image: radial-gradient(120% 90% at 50% 40%, #000 30%, transparent 85%); }
+
+/* --- hand-drawn dividers --- */
+.v2-divider { display: block; width: min(100% - var(--gutter) * 2, 40rem); margin: clamp(1.5rem, 4vw, 2.75rem) auto 0; pointer-events: none; }
+.v2-divider svg { display: block; width: 100%; height: 28px; overflow: visible; }
+@media (prefers-reduced-motion: no-preference) {
+  .v2-js .v2-divider .dv-line { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .v2-js .v2-divider.in .dv-line { transition: stroke-dashoffset 700ms var(--ease-out); stroke-dashoffset: 0; }
+  .v2-js .v2-divider .dv-star { transform-box: fill-box; transform-origin: center; opacity: 0; scale: .7; }
+  .v2-js .v2-divider.in .dv-star { transition: opacity 300ms var(--ease-out) 450ms, scale 400ms var(--ease-spring) 450ms, rotate 600ms var(--ease-out) 450ms; opacity: 1; scale: 1; rotate: 72deg; }
+}
+
+/* --- photo treatments (the photos themselves are untouched) --- */
+.about-photo { box-shadow: none; }   /* the shadow belongs to the blob-shaped image, not its square box */
+.about-photo img { rotate: -1.2deg; }
+.about-photo::before { content: ""; position: absolute; z-index: 3; top: -8px; left: 36%; width: 96px; height: 26px; rotate: -7deg;
+  background: #fbefd8d9; box-shadow: 0 2px 6px -2px #2b235033;
+  -webkit-mask: linear-gradient(90deg, transparent 0 3px, #000 3px calc(100% - 3px), transparent calc(100% - 3px)),
+    repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px) 0 0 / 3px 100% repeat-y,
+    repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px) 100% 0 / 3px 100% repeat-y;
+  mask: linear-gradient(90deg, transparent 0 3px, #000 3px calc(100% - 3px), transparent calc(100% - 3px)),
+    repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px) 0 0 / 3px 100% repeat-y,
+    repeating-linear-gradient(180deg, #000 0 3px, transparent 3px 5px) 100% 0 / 3px 100% repeat-y; }
+.gallery-bar { position: relative; }
+.gallery-bar::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 9px; background: var(--deep); pointer-events: none;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 9' preserveAspectRatio='none'%3E%3Cpath d='M0 9V5l6-3 5 4 7-5 6 4 5-2 7 3 6-4 5 3 7-4 6 5 5-3 6 2 7-4 5 4 6-3 7 4 5-2 6 3 6-5V9Z'/%3E%3C/svg%3E") 0 100% / 120px 9px repeat-x;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 9' preserveAspectRatio='none'%3E%3Cpath d='M0 9V5l6-3 5 4 7-5 6 4 5-2 7 3 6-4 5 3 7-4 6 5 5-3 6 2 7-4 5 4 6-3 7 4 5-2 6 3 6-5V9Z'/%3E%3C/svg%3E") 0 100% / 120px 9px repeat-x; }
+
+/* --- custom cursors: fine pointers only, never in Calm mode --- */
+@media (hover: hover) and (pointer: fine) {
+  html:not([data-calm]) :is(main p, main blockquote, main li) { cursor: url("/cursor-pencil.svg") 3 29, auto; }
+  html:not([data-calm]) :is(a, button, summary, [role="button"], .button) { cursor: url("/cursor-pencil.svg") 3 29, pointer; }
+}
+
+/* --- removed on request: the three expandable blocks at the bottom of Robotics
+       ("Try the sensor", "Explore the workshop robot parts", "Explore the six-week course outline").
+       Only direct children of .wrap, so the week items inside the outline go with it and "What students build" stays. --- */
+.robotics > .wrap > details { display: none !important; }
+
+/* --- Calm mode and print --- */
+html[data-calm] .v2-divider .dv-line { stroke-dashoffset: 0 !important; }
+html[data-calm] .v2-divider .dv-star { opacity: 1 !important; scale: 1 !important; }
+@media print { #tuition::before, .robotics::after { display: none; } }
+@media (forced-colors: active) { #tuition::before, .robotics::after, .about-photo::before, .gallery-bar::before { display: none; } }

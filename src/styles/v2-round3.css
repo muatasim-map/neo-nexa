@@ -1,0 +1,110 @@
+/* ===== round 3: fixes, remaining sections, a11y/perf ===== */
+
+/* --- hero: immediate CSS entrance (no waiting on observers) --- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-copy > * { animation: v2-in 600ms var(--ease-out) both; }
+  .hero-copy > :nth-child(1) { animation-delay: 60ms; }
+  .hero-copy > :nth-child(2) { animation-delay: 130ms; }
+  .hero-copy > :nth-child(3) { animation-delay: 190ms; }
+  .hero-copy > :nth-child(4) { animation-delay: 240ms; }
+  .hero .gallery { animation: v2-in 700ms var(--ease-out) 150ms both; }
+}
+
+/* --- contact fixes --- */
+.contact-email { text-decoration: none; }
+.contact-action { align-items: center; margin-top: .35rem; }
+.contact-action button { border-radius: 999px; padding: .4rem .95rem; border-color: #d5c2ef; background: #f6effe; color: #43226a; }
+@media (hover:hover) and (pointer:fine) { .contact-action button:hover { background: #ecdffb; } }
+
+/* --- doodles stay in the gutters on mid widths --- */
+@media (min-width: 47.01rem) and (max-width: 64rem) {
+  #tuition .v2-doodles, .reviews .v2-doodles { opacity: .5; }
+  .home .v2-doodles svg:nth-child(n+3) { display: none; }
+}
+
+/* --- tuition cards --- */
+.tuition-option { overflow: hidden; }
+.tuition-option::after { content: "Free first session"; position: absolute; top: 2.4rem; right: -3rem; width: 13rem; padding: .32rem 0; rotate: 45deg;
+  text-align: center; font: 700 .6rem/1 var(--body); letter-spacing: .07em; text-transform: uppercase; color: #fff;
+  background: linear-gradient(90deg, #7b4fd0, #b45fae); box-shadow: 0 4px 10px -4px #43226a99; pointer-events: none; }
+.v2-strip { display: block; width: clamp(7rem, 30%, 9.5rem); height: auto; margin: -.25rem 0 .9rem -.15rem; overflow: visible; }
+.v2-strip .ln { fill: none; stroke: #6a45a8; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.v2-strip .fl { fill: #e5d7fa; }
+.online .v2-strip .ln { stroke: #2f5fb8; }
+.online .v2-strip .fl { fill: #cfe0fb; }
+.tutor-list > div { border-radius: .7rem; padding: .65rem .75rem; margin-inline: -.75rem; border-top-color: #c9d7ef; transition: background-color 200ms ease; }
+.tutor-list dt { justify-content: space-between; }
+.v2-tier { display: inline-flex; gap: 3px; margin-left: auto; align-self: center; }
+.v2-tier i { width: 7px; height: 7px; border-radius: 50%; background: #c3d1ea; }
+.v2-tier i.on { background: linear-gradient(135deg, #234fc9, #7b4fd0); }
+@media (hover:hover) and (pointer:fine) { .tutor-list > div:hover { background: #ffffffa6; } }
+
+/* --- robotics --- */
+.workshop-facts { border-bottom: 0; gap: .6rem; padding: 0; }
+.workshop-facts li, .workshop-facts li + li { border: 1px solid #8fb7e440; border-left: 1px solid #8fb7e440; padding: .55rem .9rem; border-radius: .9rem;
+  background: linear-gradient(160deg, #ffffff14, #ffffff06); box-shadow: 0 0 24px -6px #7b9cff55, inset 0 1px 0 #ffffff1f; font-weight: 600; }
+.workshop-facts .v2-num { font: 400 1.6rem/1 var(--display); color: #fff; margin-right: .3rem; font-variant-numeric: tabular-nums; }
+.projects { position: relative; gap: 1rem; border-top: 0; }
+.project { position: relative; padding: 1.1rem 1.2rem; border-radius: 1rem; background: #ffffff0d; border: 1px solid #8fb7e430; box-shadow: inset 0 1px 0 #ffffff14; }
+.project > span { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: #d9b6ff22; color: #e6d4ff; font-weight: 700; border: 1px solid #d9b6ff55; }
+.v2-circuit { position: absolute; left: 0; right: 0; top: 50%; height: 2px; pointer-events: none; overflow: visible; z-index: -1; }
+.v2-circuit line { stroke: #8fb7e466; stroke-width: 2; stroke-dasharray: 6 6; }
+.robot-controls button, .sensor-controls button { border-radius: 999px !important; background: #ffffff0f; border-color: #8fb7e455 !important; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+
+/* --- gift modal --- */
+.v2-backdrop { position: fixed; inset: 0; z-index: 49; background: #1d10332e; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+  opacity: 0; pointer-events: none; transition: opacity 260ms var(--ease-out); }
+body:has(#free-session:not([hidden])) .v2-backdrop { opacity: 1; pointer-events: auto; }
+.offer-reveal { box-shadow: 0 30px 80px -20px #2814406b, 0 0 0 1px #ffffff80 inset; background: linear-gradient(170deg, #fbf6ff, #f1e6fc); }
+.offer-reveal-links { gap: .75rem; }
+.offer-reveal-links a { flex: 1 1 12rem; justify-content: space-between; padding: .9rem 1.1rem; border-radius: 1rem; background: #fff; border: 1px solid #e3d0f9;
+  box-shadow: 0 6px 16px -10px #43226a66; font-weight: 700; text-decoration: none; }
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover:hover) and (pointer:fine) {
+    .offer-reveal-links a { transition: transform 220ms var(--ease-out), box-shadow 220ms ease; }
+    .offer-reveal-links a:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -12px #43226a88; }
+  }
+}
+
+/* --- gallery dots --- */
+.v2-dots { display: flex; gap: 6px; align-items: center; }
+.v2-dots i { width: 6px; height: 6px; border-radius: 99px; background: #ffffff55; transition: width 260ms var(--ease-out), background-color 200ms ease; }
+.v2-dots i.on { width: 18px; background: #e3d0f9; }
+@media (max-width: 36rem) { .v2-dots { display: none; } }
+
+/* --- focus rings --- */
+.tuition-option:focus-within { outline: none; }
+:is(.programme-index a, .contact-paths a, .offer-reveal-links a, .v2-mascot, .button, .review-next, .contact-action button):focus-visible {
+  outline: 3px solid #7b4fd0; outline-offset: 3px; }
+.robotics :is(a, button):focus-visible { outline-color: #d9b6ff; }
+
+/* --- perf: pause off-screen loops, lighter mobile --- */
+.v2-paused, .v2-paused *, .v2-paused::before, .v2-paused::after { animation-play-state: paused !important; }
+@media (max-width: 47rem) {
+  .programme-index a, .contact-layout { -webkit-backdrop-filter: none; backdrop-filter: none; background: #fffffff0; }
+}
+
+/* --- mascot lap --- */
+.v2-mascot.lapping .bubble { opacity: 0 !important; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .v2-js .v2-strip .ln { stroke-dasharray: 160; stroke-dashoffset: 160; }
+  .v2-js .in .v2-strip .ln, .v2-js .v2-strip.in .ln { transition: stroke-dashoffset 900ms var(--ease-out) 200ms; stroke-dashoffset: 0; }
+  .v2-js .v2-circuit line { stroke-dashoffset: 400; }
+  .v2-js .v2-circuit.in line { transition: stroke-dashoffset 1400ms var(--ease-out); stroke-dashoffset: 0; }
+}
+
+/* italic gradient text: keep the slanted glyph edges inside the painted box */
+.v2-ink { padding-right: .12em; margin-right: -.06em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* header must stay near-opaque so the multiply-blended logo never darkens over the navy band */
+.v2-scrolled .site-header::before { background: color-mix(in srgb, #fbfcff 95%, transparent); }
+
+/* eyebrow must hug its text inside the tuition grid */
+.section-intro .v2-eyebrow { justify-self: start; }
+
+/* the hero heading is the main content: it slides up but is never invisible */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-copy > :nth-child(1) { animation: v2-rise 650ms var(--ease-out) both; }
+  @keyframes v2-rise { from { translate: 0 12px; } to { translate: 0 0; } }
+}

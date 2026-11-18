@@ -1,0 +1,6 @@
+<svg class="v2-divider-art" viewBox="0 0 640 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <g fill="none" stroke="var(--ink, #2b2350)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+    <path class="dv-line" pathLength="1" d="M4 15c40-6 80 4 120-1s78-5 116 1 52 3 62 1M338 15c14 2 34 3 62-1s76-6 116 1 80 4 120-2" opacity=".55"/>
+    <path class="dv-star" d="m320 5 2.6 6.4 6.8.5-5.2 4.4 1.7 6.6-5.9-3.6-5.9 3.6 1.7-6.6-5.2-4.4 6.8-.5Z" fill="#e5d7fa"/>
+  </g>
+</svg>

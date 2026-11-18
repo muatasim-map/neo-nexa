@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- subject icons; robotics reuses the page's existing #rover-icon -->
+  <symbol id="v2s-maths" viewBox="0 0 24 24">
+    <g fill="none" stroke="var(--ink, #2b2350)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 16.5 16.5 3l4.5 4.5L7.5 21Z" fill="#fbefd8"/>
+      <path d="m7 13 1.6 1.6M9.6 10.4l1 1M12 8l1.6 1.6M14.6 5.4l1 1"/>
+      <path d="M13 15.5h7M14.6 15.5v5M18.2 15.5c0 2.2-.2 4 1 5" stroke="#6a45a8"/>
+    </g>
+  </symbol>
+  <symbol id="v2s-science" viewBox="0 0 24 24">
+    <g fill="none" stroke="var(--ink, #2b2350)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/>
+      <path d="M7 15.5h10l2.4 3.5A1.7 1.7 0 0 1 18 21H6a1.7 1.7 0 0 1-1.4-2Z" fill="#cfe0fb"/>
+      <circle cx="10.5" cy="18" r=".9" fill="var(--ink, #2b2350)" stroke="none"/><circle cx="13.6" cy="17.2" r=".7" fill="var(--ink, #2b2350)" stroke="none"/>
+    </g>
+  </symbol>
+  <symbol id="v2s-english" viewBox="0 0 24 24">
+    <g fill="none" stroke="var(--ink, #2b2350)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 7c-2.2-1.6-5-2-8.5-1.6V18c3.4-.4 6.2 0 8.5 1.6 2.3-1.6 5.1-2 8.5-1.6V5.4C17 5 14.2 5.4 12 7Z" fill="#e5d7fa"/>
+      <path d="M12 7v12.6M6 9h3.5M6 12h3"/>
+      <path d="m14.4 14.6 4.8-4.8 1.6 1.6-4.8 4.8-2.2.6Z" fill="#fbefd8"/>
+    </g>
+  </symbol>
+</svg>

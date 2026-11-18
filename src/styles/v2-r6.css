@@ -1,0 +1,88 @@
+/* ===== round 6: robotics section ===== */
+
+/* --- stage: glow that grows with scroll progress, corner brackets --- */
+.robot-stage { isolation: isolate; --p: 0; }
+.robot-stage::before {
+  content: ""; position: absolute; inset: -10%; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side at 50% 52%, #7ea8ff 0%, #5a7bd8aa 35%, transparent 72%);
+  opacity: calc(.12 + var(--p) * .38); scale: calc(.78 + var(--p) * .32);
+}
+.robot-stage::after {
+  content: ""; position: absolute; inset: .7rem; z-index: 3; pointer-events: none;
+  --b: #9bc8ff88;
+  background:
+    linear-gradient(var(--b), var(--b)) top left / 20px 1.5px no-repeat, linear-gradient(var(--b), var(--b)) top left / 1.5px 20px no-repeat,
+    linear-gradient(var(--b), var(--b)) top right / 20px 1.5px no-repeat, linear-gradient(var(--b), var(--b)) top right / 1.5px 20px no-repeat,
+    linear-gradient(var(--b), var(--b)) bottom left / 20px 1.5px no-repeat, linear-gradient(var(--b), var(--b)) bottom left / 1.5px 20px no-repeat,
+    linear-gradient(var(--b), var(--b)) bottom right / 20px 1.5px no-repeat, linear-gradient(var(--b), var(--b)) bottom right / 1.5px 20px no-repeat;
+}
+
+/* --- "what you'll learn" rail --- */
+.v2-rail { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; padding: 2.2rem 1.1rem .95rem;
+  background: linear-gradient(180deg, transparent, #0b2846e6 55%); pointer-events: none; }
+.v2-cap { margin: 0 0 .7rem; min-height: 1.5em; color: #e6efff; font-size: .95rem; font-weight: 500; text-align: center; text-wrap: balance; }
+.v2-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin: 0; padding: 0; list-style: none; }
+.v2-steps li { display: flex; align-items: center; justify-content: center; gap: .45rem; padding: .42rem .5rem; border-radius: 999px;
+  border: 1px solid #8fb7e440; background: #ffffff0a; color: #9fb3d6; font-size: .8rem; font-weight: 600; white-space: nowrap; }
+.v2-steps svg { width: 1.05rem; height: 1.05rem; flex: none; }
+.v2-steps li.done { color: #dfe8ff; border-color: #8fb7e480; background: #ffffff14; }
+.v2-steps li.on { color: #fff; border-color: #f0c070; background: #f0c07022; box-shadow: 0 0 18px -4px #f0c070aa; }
+.v2-steps li.on svg { color: #f0c070; }
+.v2-bar { position: relative; height: 3px; margin-top: .65rem; border-radius: 3px; background: #ffffff1c; overflow: hidden; }
+.v2-bar i { position: absolute; inset: 0; background: linear-gradient(90deg, #7ea8ff, #b48cf0, #f0c070); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); }
+.v2-sweep { position: absolute; left: 0; right: 0; top: 0; height: 22%; z-index: 2; pointer-events: none; opacity: 0;
+  background: linear-gradient(180deg, transparent, #9bc8ff2e 50%, transparent); }
+
+/* --- "How the workshop runs" strip --- */
+.v2-workshop { --ink: #dfe8ff; position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .85rem;
+  margin: clamp(2rem, 5vw, 3.5rem) 0 0; padding: 0; list-style: none; }
+.v2-workshop li { position: relative; padding: 1.05rem 1.1rem 1.15rem; border-radius: 1rem; border: 1px solid #8fb7e440;
+  background: linear-gradient(160deg, #ffffff14, #ffffff06); box-shadow: inset 0 1px 0 #ffffff1f, 0 16px 34px -22px #000a; }
+.v2-workshop svg { display: block; width: 1.9rem; height: 1.9rem; margin-bottom: .6rem; }
+.v2-workshop strong { display: block; color: #fff; font-size: 1rem; line-height: 1.25; }
+.v2-workshop span { display: block; margin-top: .2rem; color: #c3d3f0; font-size: .86rem; line-height: 1.4; }
+.v2-workshop::after { content: ""; position: absolute; left: 50%; top: 100%; height: clamp(1.2rem, 3vw, 2rem); border-left: 2px dashed #8fb7e466; pointer-events: none; }
+
+/* --- dark theme polish --- */
+.v2-circuit { display: none !important; }                         /* replaced by the short connector above */
+.robotics { box-shadow: inset 0 1px 0 #ffffff26; }
+.workshop-facts li, .workshop-facts li + li { box-shadow: 0 0 28px -6px #7b9cffa6, inset 0 1px 0 #ffffff26; }
+.robotics .projects { margin-top: clamp(2rem, 4.5vw, 3.2rem); }
+
+@media (max-width: 64rem) { .v2-workshop { grid-template-columns: repeat(2, minmax(0, 1fr)); } .v2-workshop::after { display: none; } }
+@media (max-width: 47rem) {
+  .v2-rail { padding: 1.8rem .7rem .7rem; }
+  .v2-cap { font-size: .86rem; margin-bottom: .5rem; }
+  .v2-steps { gap: .35rem; }
+  .v2-steps li { padding: .38rem .3rem; font-size: 0; gap: 0; }                 /* icon-only chips; labels stay in the DOM */
+  .v2-steps svg { width: 1.2rem; height: 1.2rem; }
+}
+@media (max-width: 30rem) { .v2-workshop { gap: .6rem; } .v2-workshop li { padding: .85rem .85rem .95rem; } .v2-workshop svg { width: 1.6rem; height: 1.6rem; } }
+
+/* --- motion --- */
+@media (prefers-reduced-motion: no-preference) {
+  .robot-stage::before { transition: opacity 240ms linear, scale 240ms linear; }
+  .v2-steps li { transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease; }
+  .v2-steps li svg { transition: color 200ms ease, scale 200ms var(--ease-out); }
+  .v2-steps li.on svg { scale: 1.15; }
+  .v2-sweep.run { animation: v2-sweep 700ms var(--ease-out) both; }
+  @keyframes v2-sweep { 0% { opacity: 0; translate: 0 -30%; } 30% { opacity: 1; } 100% { opacity: 0; translate: 0 420%; } }
+  .robot-stage::after { animation: v2-brackets 4.2s ease-in-out infinite; }
+  @keyframes v2-brackets { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+  @media (hover: hover) and (pointer: fine) {
+    .v2-workshop li { transition: translate 260ms var(--ease-out), border-color 200ms ease; }
+    .v2-workshop li:hover { translate: 0 -2px; border-color: #8fb7e488; }
+  }
+}
+
+/* --- reduced motion and Calm mode: static rail, fully lit, no glow growth, sweep or brackets pulse --- */
+@media (prefers-reduced-motion: reduce) {
+  .robot-stage { --p: 1; }
+  .v2-sweep { display: none; }
+}
+html[data-calm] .v2-sweep, html[data-calm] .robot-stage::after { animation: none !important; }
+html[data-calm] .v2-sweep { display: none; }
+html[data-calm] .robot-stage::before { transition: none; }
+html[data-calm] .v2-steps li, html[data-calm] .v2-steps li svg { transition: none; }
+@media print { .v2-rail, .v2-sweep { display: none; } }
+@media (forced-colors: active) { .robot-stage::before, .robot-stage::after { display: none; } .v2-steps li.on { border-color: Highlight; } }

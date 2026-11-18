@@ -1,0 +1,103 @@
+/* ===== round 4: motion audit (Emil gate), Calm mode, student voice ===== */
+
+/* --- 1. gift popup: smooth exit (enter stays the original page's own animation) --- */
+#free-session[hidden] {
+  display: block !important; visibility: hidden; opacity: 0; scale: .97; pointer-events: none;
+  transition: opacity 180ms var(--ease-out), scale 180ms var(--ease-out), visibility 0s linear 180ms;
+}
+.v2-backdrop { transition-duration: 180ms; }
+@media print { #free-session[hidden] { display: none !important; } }
+@media (prefers-reduced-motion: reduce) {
+  #free-session[hidden] { scale: 1; transition: opacity 120ms linear, visibility 0s linear 120ms; }
+}
+
+/* --- 2. enquiry panels and draft box: no more teleporting --- */
+.form-article:not([hidden]), .draft-review-box, .enquiry-area:not([hidden]) {
+  transition: opacity 240ms var(--ease-out), translate 240ms var(--ease-out);
+  @starting-style { opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .form-article:not([hidden]), .draft-review-box { @starting-style { translate: 0 10px; } }
+}
+
+/* --- 3. <details>: animated height where supported (falls back to the old snap) --- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (interpolate-size: allow-keywords) {
+    :root { interpolate-size: allow-keywords; }
+    details::details-content {
+      block-size: 0; opacity: 0; overflow: clip;
+      transition: block-size 240ms var(--ease-out), opacity 200ms var(--ease-out), content-visibility 240ms allow-discrete;
+    }
+    details[open]::details-content { block-size: auto; opacity: 1; }
+  }
+}
+
+/* --- 4. mobile menu: grows from the Menu button (Escape closes instantly via JS) --- */
+@media (max-width: 47rem) and (prefers-reduced-motion: no-preference) {
+  .js #main-nav {
+    opacity: 0; scale: .97; transform-origin: top right;
+    transition: opacity 160ms var(--ease-out), scale 160ms var(--ease-out), display 160ms allow-discrete;
+  }
+  .js #main-nav.is-open { opacity: 1; scale: 1; @starting-style { opacity: 0; scale: .97; } }
+}
+
+/* --- 6. press feedback on cards and tiles --- */
+.programme-index a, .contact-paths a, .offer-reveal-links a {
+  transition: transform 260ms var(--ease-out), box-shadow 260ms ease, border-color 200ms ease, scale 160ms var(--ease-out);
+}
+.programme-index a:active, .contact-paths a:active, .offer-reveal-links a:active { scale: .98; }
+
+/* --- trims of earlier rounds (frequent hover effects get quieter) --- */
+@media (prefers-reduced-motion: no-preference) {
+  .v2-mascot { transition: translate 120ms linear; }          /* tracks scroll 1:1 */
+  @media (hover: hover) and (pointer: fine) {
+    .button, form [type="submit"] { transition: transform 160ms var(--ease-out), background-color 200ms ease, box-shadow 200ms ease; }
+    .tuition-option:hover, .programme-index a:hover { transform: translateY(-2px); }
+    /* boop keyframes -> small interruptible scale on tens-per-day hovers */
+    .programme-index .choice-icon, .programme-index .robotics-icon, .programme-index a > .icon:first-child, .contact-paths .v2-tile-icon { transition: scale 160ms var(--ease-out); }
+    .programme-index a:hover .choice-icon, .programme-index a:hover .robotics-icon, .programme-index a:hover > .icon:first-child,
+    .contact-paths a:hover .v2-tile-icon { animation: none; scale: 1.06; }
+  }
+  /* large surfaces: no blur reveal, shorter and cheaper */
+  .v2-js :is(.tuition-option, .blueprint, .parts-details, .about-photo, .featured-review-wrap, .contact-paths)[data-reveal]:not(.in) { filter: none; }
+  .v2-js :is(.tuition-option, .blueprint, .parts-details, .about-photo, .featured-review-wrap, .contact-paths)[data-reveal].in { animation-name: v2-in-lite; animation-duration: 450ms; }
+  @keyframes v2-in-lite { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+  /* review button: interruptible transition instead of restarting keyframes */
+  .review-next .icon { transition: rotate 300ms var(--ease-out); }
+  .review-next.spin .icon { animation: none; rotate: 360deg; }
+}
+
+/* --- reduced motion: keep opacity/colour changes, drop movement --- */
+@media (prefers-reduced-motion: reduce) {
+  #main-nav a::after { transition: none; }
+  .v2-mascot .bubble { transform: none; transition: opacity 120ms linear; }
+  .form-article:not([hidden]), .draft-review-box, .enquiry-area:not([hidden]) { transition: opacity 160ms linear; }
+  .programme-index a, .contact-paths a, .offer-reveal-links a { transition: box-shadow 160ms ease, border-color 160ms ease; }
+  .v2-calm, .button, form [type="submit"] { transition: background-color 160ms ease; }
+}
+
+/* --- student voice line next to the free-session chip --- */
+.v2-student-line { margin: -.45rem 0 1.15rem; max-width: 36ch; color: #4a3a73; font-size: .95rem; line-height: 1.45; }
+
+/* --- Calm mode: one switch for everything decorative --- */
+.v2-calm { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .35rem .9rem; border-radius: 999px;
+  border: 1px solid #c9bde4; background: #f6effe; color: #43226a; font: 600 .85rem/1 var(--body); cursor: pointer;
+  transition: background-color 160ms ease, scale 160ms var(--ease-out); }
+.v2-calm:active { scale: .97; }
+.v2-calm::before { content: ""; width: .7rem; height: .7rem; border-radius: 50%; background: #9b5fce; box-shadow: 0 0 0 3px #9b5fce33; }
+.v2-calm[aria-pressed="true"]::before { background: #8aa0c4; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) { .v2-calm:hover { background: #ecdffb; } }
+.v2-calm:focus-visible { outline: 3px solid #7b4fd0; outline-offset: 3px; }
+
+html[data-calm] .v2-doodles, html[data-calm] .v2-fx, html[data-calm] .v2-track, html[data-calm] .v2-intro, html[data-calm] .v2-hero-arrow { display: none !important; }
+html[data-calm] :is(.home::before, .hero .first-session::after, .hero .first-session .offer-mark svg, .photo-frame .seal-button, .v2-foot-note .heart,
+  .v2-mascot.wave .icon, .v2-badge svg .ring-text, .hero-copy > *, .hero .gallery) { animation: none !important; }
+html[data-calm] [data-reveal]:not(.in) { opacity: 1 !important; translate: none !important; filter: none !important; }
+html[data-calm] [data-reveal].in { animation: none !important; }
+html[data-calm] .v2-word > span { transform: none !important; transition: none !important; }
+html[data-calm] .v2-tilt { transform: none !important; }
+html[data-calm] .hero-copy .button { translate: none !important; }
+html[data-calm] .v2-mascot { top: auto !important; bottom: 14px; translate: none !important; transition: none; }
+html[data-calm] .v2-mascot .bubble { top: auto; bottom: 6px; }
+html[data-calm] .v2-mascot .wheels i { transform: none !important; }
+html[data-calm] .v2-star { opacity: 1 !important; transform: none !important; animation: none !important; }

@@ -1,0 +1,64 @@
+<svg class="v2-scene" viewBox="0 0 490 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <!-- style: 1.6px round strokes in --ink, fills from lilac / sky / cream, one gold accent (lamp light) -->
+  <g fill="none" stroke="var(--ink, #2b2350)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- lamp light pool (the single gold accent) -->
+    <path class="sc-glow" d="M70 110 L86 110 L124 212 Q90 217 48 212 Z" fill="var(--glow, #e0a24f)" stroke="none" opacity=".14"/>
+
+    <!-- desk -->
+    <path d="M14 214 Q120 211 240 214 T476 213" />
+    <path d="M30 216 L28 252 M462 216 L464 252" />
+
+    <!-- lamp -->
+    <path d="M58 213 Q70 208 84 213" fill="#e5d7fa"/>
+    <path d="M70 210 L94 150 L72 112" />
+    <circle cx="94" cy="150" r="3.2" fill="#fbefd8"/>
+    <path d="M60 104 Q72 84 96 94 L88 112 Q74 104 60 104 Z" fill="#e5d7fa"/>
+    <path class="sc-bulb" d="M74 108 q6 6 12 2" stroke="#e0a24f" stroke-width="2.2"/>
+
+    <!-- stack of books -->
+    <path d="M118 213 L118 199 Q150 196 186 199 L186 213 Z" fill="#cfe0fb"/>
+    <path d="M122 199 L124 186 Q152 182 182 186 L182 199" fill="#fbefd8"/>
+    <path d="M126 186 L126 175 Q150 172 176 175 L176 186" fill="#e5d7fa"/>
+    <path d="M128 206 h50 M130 192 h46" opacity=".55"/>
+    <!-- open notebook on top with a flipping page -->
+    <path d="M124 175 Q138 166 151 172 Q164 166 178 175" fill="#fff"/>
+    <path d="M151 172 L151 175"/>
+    <g class="sc-page"><path d="M151 172 Q160 162 172 166 Q166 170 151 172 Z" fill="#fbefd8"/></g>
+
+    <!-- laptop -->
+    <path d="M206 213 L376 213 L366 206 L216 206 Z" fill="#e5d7fa"/>
+    <path d="M222 206 L226 132 Q228 128 232 128 L352 128 Q356 128 356 132 L360 206" fill="#cfe0fb"/>
+    <path d="M236 140 h108 v54 h-108 Z" fill="#fff"/>
+    <path class="sc-type" d="M246 152 h40 M246 162 h62 M246 172 h28" stroke-width="2"/>
+    <path class="sc-caret" d="M278 168 v8" stroke="#2b2350" stroke-width="2"/>
+    <path d="M320 152 l6 6 l10 -12" />
+
+    <!-- mug with steam -->
+    <path d="M386 213 L384 186 L404 186 L402 213 Z" fill="#fbefd8"/>
+    <path d="M404 192 q8 2 6 10 q-2 6 -8 6"/>
+    <g class="sc-steam">
+      <path d="M390 180 q-4 -6 0 -12 q4 -6 0 -12" opacity=".6"/>
+      <path d="M398 178 q-4 -6 0 -12 q4 -6 0 -12" opacity=".6"/>
+    </g>
+
+    <!-- plant (far left, beside the lamp) -->
+    <g transform="translate(-172 0)">
+      <path d="M186 213 L188 196 L204 196 L206 213 Z" fill="#fbefd8"/>
+      <g class="sc-leaves">
+        <path d="M194 196 Q182 178 190 164 Q200 180 194 196 Z" fill="#cfe0fb"/>
+        <path d="M198 196 Q206 176 216 170 Q212 190 198 196 Z" fill="#e5d7fa"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- rover: parked on the desk, right of the mug -->
+  <g class="sc-rover-wrap" fill="none" stroke="var(--ink, #2b2350)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(426 176)">
+    <path d="M-6 30 v-12 q0-6 6-6 h24 l8-14 h12 l6 10 v22 Z" fill="#e5d7fa"/>
+    <circle cx="4" cy="32" r="5.5" fill="#fbefd8"/>
+    <circle cx="38" cy="32" r="5.5" fill="#fbefd8"/>
+    <g class="sc-antenna"><path d="M38 -2 v-12 h7"/><circle cx="46" cy="-14" r="1.8" fill="#e0a24f" stroke="none"/></g>
+    <g class="sc-eye"><ellipse cx="40" cy="8" rx="2.2" ry="2.6" fill="var(--ink, #2b2350)" stroke="none"/></g>
+    <path d="M6 22 h10" opacity=".55"/>
+  </g>
+</svg>
