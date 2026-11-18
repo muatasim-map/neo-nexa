@@ -23,18 +23,13 @@ const BROCHURE = 'https://drive.google.com/file/d/1Ceiy8pwHRhllsjTzq_g78pBZl5zk5
  * #robot-canvas once when it runs, so it is loaded after those exist. It also defines
  * window.createNexaGift, used by the free-session gift.
  */
-function loadRobotScene() {
-  if (window.__nexaRobotScene) return;
+export function loadRobotScene() {
+  if (typeof window === 'undefined' || window.__nexaRobotScene) return;
   window.__nexaRobotScene = true;
-  const add = () => {
-    const script = document.createElement('script');
-    script.src = robotSceneUrl;
-    script.async = true;
-    document.body.appendChild(script);
-  };
-  /* the 600 KB scene is not needed for first paint: fetch it once the page is idle */
-  const idle = () => ('requestIdleCallback' in window ? requestIdleCallback(add, { timeout: 3000 }) : setTimeout(add, 1500));
-  if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
+  const script = document.createElement('script');
+  script.src = robotSceneUrl;
+  script.async = true;
+  document.body.appendChild(script);
 }
 
 const STEPS = [
@@ -59,7 +54,22 @@ function RobotStage() {
   const [step, setStep] = useState(reduce ? 2 : 0);
   const shown = useRef(-1);
 
-  useEffect(() => { loadRobotScene(); }, []);
+  useEffect(() => {
+    const j = journey.current;
+    if (!j) return;
+    if (!('IntersectionObserver' in window)) {
+      loadRobotScene();
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        loadRobotScene();
+        io.disconnect();
+      }
+    }, { rootMargin: '600px 0px' });
+    io.observe(j);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const j = journey.current, c = canvas.current;

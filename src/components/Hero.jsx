@@ -7,6 +7,7 @@ import { fine, reduce, isCalm, cx } from '../lib/env.js';
 import { fx } from '../lib/fx.js';
 import { play } from '../lib/motion.js';
 import { useOffscreenPause } from '../hooks/useOffscreenPause.js';
+import { loadRobotScene } from './Robotics.jsx';
 import heroScene from '../art/hero-scene.svg?raw';
 
 const HERO_DOODLES = [['star', 4, 10, 22], ['squiggle', 44, 6, 34], ['plus', 52, 70, 18], ['ring', 3, 62, 20], ['spark', 93, 8, 22], ['gift', 40, 84, 26], ['star', 96, 58, 16], ['rover', 30, 44, 28]];
@@ -18,17 +19,21 @@ function useSpotlight(ref) {
     const el = ref.current;
     if (!el || !fine || reduce) return;
     let px = 0, py = 0, raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (px - r.left) + 'px');
+      el.style.setProperty('--my', (py - r.top) + 'px');
+    };
     const move = (e) => {
       px = e.clientX; py = e.clientY;
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const r = el.getBoundingClientRect(); if (py < r.top || py > r.bottom) return;
-        el.style.setProperty('--mx', (px - r.left) + 'px'); el.style.setProperty('--my', (py - r.top) + 'px');
-      });
+      if (!raf) raf = requestAnimationFrame(update);
     };
-    addEventListener('pointermove', move, { passive: true });
-    return () => { removeEventListener('pointermove', move); cancelAnimationFrame(raf); };
+    el.addEventListener('pointermove', move, { passive: true });
+    return () => {
+      el.removeEventListener('pointermove', move);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [ref]);
 }
 export { useSpotlight };
@@ -79,7 +84,7 @@ function ProgrammeIndex() {
     <nav className="wrap programme-index" aria-label="Explore programmes">
       <ChoiceLink href="#offline" base="classroom-book" doodle={DOODLE_CLASSROOM} title="Classroom tuition" small="Barking Riverside" delay={0} />
       <ChoiceLink href="#online" base="screen" doodle={DOODLE_ONLINE} title="Online GCSE tuition" small="One-to-one or group" delay={60} />
-      <Reveal as="a" delay={120} href="#robotics">
+      <Reveal as="a" delay={120} href="#robotics" onPointerEnter={loadRobotScene} onFocus={loadRobotScene}>
         <span className="robotics-icon"><Icon id="rover-icon" /></span>
         <span><strong>Robotics workshop</strong><small>For Grade 8 beginners</small></span>
         <Icon id="arrow-out" />
@@ -100,12 +105,13 @@ export function Hero() {
   useEffect(() => {
     const place = () => {
       if (!hero.current || !cta.current || !arrow.current) return;
+      if (window.innerWidth <= 752) return;
       const hr = hero.current.getBoundingClientRect(), cr = cta.current.getBoundingClientRect();
       arrow.current.style.left = (cr.right - hr.left + 14) + 'px';
       arrow.current.style.top = (cr.top - hr.top - 22) + 'px';
     };
     place();
-    addEventListener('resize', place); addEventListener('load', place);
+    addEventListener('resize', place, { passive: true }); addEventListener('load', place);
     const ro = 'ResizeObserver' in window ? new ResizeObserver(place) : null;
     ro?.observe(hero.current);
     const t = setTimeout(place, 900); /* after the hero entrance has settled */

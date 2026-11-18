@@ -42,11 +42,29 @@ const MOODS = ['home', 'tuition', 'robotics', 'about', 'reviews', 'contact'];
 export function PageChrome() {
   const bar = useRef(null);
 
-  useEffect(() => subscribeScroll((y) => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    if (bar.current) bar.current.style.transform = `scaleX(${(max > 0 ? y / max : 0).toFixed(4)})`;
-    document.documentElement.classList.toggle('v2-scrolled', y > 12);
-  }), []);
+  useEffect(() => {
+    let max = document.documentElement.scrollHeight - innerHeight;
+    let isScrolled = false;
+
+    const onResize = () => {
+      max = document.documentElement.scrollHeight - innerHeight;
+    };
+    window.addEventListener('resize', onResize, { passive: true });
+
+    const unsubscribe = subscribeScroll((y) => {
+      if (bar.current) bar.current.style.transform = `scaleX(${(max > 0 ? y / max : 0).toFixed(4)})`;
+      const shouldBeScrolled = y > 12;
+      if (shouldBeScrolled !== isScrolled) {
+        isScrolled = shouldBeScrolled;
+        document.documentElement.classList.toggle('v2-scrolled', shouldBeScrolled);
+      }
+    });
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (!('IntersectionObserver' in window)) return;

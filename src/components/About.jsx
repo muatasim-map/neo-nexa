@@ -3,18 +3,20 @@ import { Icon, Draw } from './Icon.jsx';
 import { Reveal } from './Reveal.jsx';
 import { SectionHeading } from './Heading.jsx';
 import { Divider } from './Tuition.jsx';
-import { fine } from '../lib/env.js';
+import { fine, cx } from '../lib/env.js';
 import { play } from '../lib/motion.js';
+import { useOffscreenPause } from '../hooks/useOffscreenPause.js';
 
 const CHIPS = [['classroom-book', 'Barking Riverside classroom'], ['screen', 'Online GCSE'], ['rover-icon', 'Robotics']];
 
 export function About() {
+  const [ref, paused] = useOffscreenPause();
   const panel = useRef(null);
   const fold = () => play(panel.current, [{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(-60deg)', offset: 0.33 }, { transform: 'rotateY(0deg)' }]);
   return (
     <>
       <Divider />
-      <section className="wrap band about" id="about" aria-labelledby="about-title">
+      <section className={cx('wrap band about', paused && 'v2-paused')} id="about" ref={ref} aria-labelledby="about-title">
         <Reveal as="div" delay={0} className="about-photo">
           <img src="/img/gallery-3.webp" alt="A person writing science notes on a classroom whiteboard" width="765" height="1020" loading="lazy" />
           <div className="v2-badge" aria-hidden="true">

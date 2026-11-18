@@ -28,16 +28,31 @@ export function Mascot() {
     const m = button.current;
     let last = scrollY, rot = 0;
     const narrow = matchMedia('(max-width: 47rem)');
-    return subscribeScroll((y) => {
+    let max = document.documentElement.scrollHeight - innerHeight;
+    let travel = innerHeight - 5 * 16 - 1.5 * 16 - 46;
+
+    const onResize = () => {
+      max = document.documentElement.scrollHeight - innerHeight;
+      travel = innerHeight - 5 * 16 - 1.5 * 16 - 46;
+    };
+    window.addEventListener('resize', onResize, { passive: true });
+
+    const unsubscribe = subscribeScroll((y) => {
+      if (narrow.matches) {
+        last = y;
+        return;
+      }
       if (Math.abs(y - last) > 4) m.classList.toggle('flip', y < last);
-      if (narrow.matches) { last = y; return; }
-      const max = document.documentElement.scrollHeight - innerHeight;
-      const travel = innerHeight - 5 * 16 - 1.5 * 16 - 46;
       m.style.setProperty('--ty', ((max > 0 ? y / max : 0) * travel).toFixed(1) + 'px');
       rot += (y - last) * 1.2;
       wheels.current.forEach((w) => { if (w) w.style.transform = `rotate(${rot.toFixed(0)}deg)`; });
       last = y;
     });
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+      unsubscribe();
+    };
   }, []);
 
   /* a friendly greeting on the first scroll */

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import confetti from 'canvas-confetti';
 import { Icon } from './Icon.jsx';
 import { reduce } from '../lib/env.js';
 import { play } from '../lib/motion.js';
 import { setOfferOpener } from '../lib/offer.js';
+import { loadRobotScene } from './Robotics.jsx';
 
 const SEEN_KEY = 'nexa-free-session-shown';
 const clamp01 = (n) => Math.max(0, Math.min(1, n));
@@ -41,19 +41,28 @@ export function GiftOffer() {
     setRevealing(false);
   }, [renderLid]);
 
-  const burst = useCallback(() => {
+  const burst = useCallback(async () => {
     const s = live.current;
     if (!s.cannon) {
-      const canvas = document.createElement('canvas');
-      canvas.className = 'offer-confetti';
-      art.current.append(canvas);
-      s.cannon = confetti.create(canvas, { resize: true, disableForReducedMotion: true });
+      try {
+        const confettiModule = await import('canvas-confetti');
+        const confetti = confettiModule.default || confettiModule;
+        if (!art.current) return;
+        const canvas = document.createElement('canvas');
+        canvas.className = 'offer-confetti';
+        art.current.append(canvas);
+        s.cannon = confetti.create(canvas, { resize: true, disableForReducedMotion: true });
+      } catch (err) {
+        console.warn('Confetti unavailable', err);
+        return;
+      }
     }
-    s.cannon({ particleCount: 44, spread: 90, startVelocity: 24, gravity: 0.85, ticks: 95, scalar: 0.8, origin: { x: 0.5, y: 0.56 },
+    s.cannon?.({ particleCount: 44, spread: 90, startVelocity: 24, gravity: 0.85, ticks: 95, scalar: 0.8, origin: { x: 0.5, y: 0.56 },
       colors: ['#965cca', '#c19be8', '#dfcaff', '#e6b14e', '#ffe0a0'] });
   }, []);
 
   const show = useCallback((fromBadge) => {
+    loadRobotScene();
     const s = live.current;
     if (s.open) { if (fromBadge) closeBtn.current?.focus({ preventScroll: true }); return; }
     const celebrate = !s.seen && !reduce;

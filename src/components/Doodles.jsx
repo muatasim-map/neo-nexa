@@ -24,13 +24,31 @@ export function Doodles({ list, colors }) {
   useEffect(() => {
     if (reduce) return;
     const host = wrap.current?.parentElement;
-    const layers = [...wrap.current.querySelectorAll('.layer')];
     if (!host) return;
-    return subscribeScroll(() => {
+    const isMobile = window.innerWidth <= 752;
+    if (isMobile) return;
+
+    const layers = [...wrap.current.querySelectorAll('.layer')];
+    let inView = true;
+
+    const io = 'IntersectionObserver' in window ? new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+    }, { rootMargin: '50px 0px' }) : null;
+
+    io?.observe(host);
+
+    const unsubscribe = subscribeScroll(() => {
+      if (!inView) return;
       const r = host.getBoundingClientRect();
       if (r.bottom < 0 || r.top > innerHeight) return;
-      layers.forEach((layer, i) => { layer.style.transform = `translate3d(0,${(r.top * -SPEEDS[i]).toFixed(1)}px,0)`; });
+      const top = r.top;
+      layers.forEach((layer, i) => { layer.style.transform = `translate3d(0,${(top * -SPEEDS[i]).toFixed(1)}px,0)`; });
     });
+
+    return () => {
+      io?.disconnect();
+      unsubscribe();
+    };
   }, []);
 
   return (
